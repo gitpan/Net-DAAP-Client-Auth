@@ -1,28 +1,17 @@
 --- #YAML:1.0
 name: Net-DAAP-Client-Auth
-version: 0.13
+version: 1.21
 author:
   - Richard Clamp <richardc@unixbeard.net>
-abstract: |-
-  Extend Net::DAAP::Client to do iTunes authorisation
+abstract: obsolete extension to Net::DAAP::Client
 license: perl
 requires:
-  Digest::MD5: 0
-  Digest::MD5::M4p: 0
-  Net::DAAP::Client: 0
+  Net::DAAP::Client: 0.4
   perl: 5.006
 build_requires:
   Test::More: 0
 provides:
   Net::DAAP::Client::Auth:
     file: lib/Net/DAAP/Client/Auth.pm
-    version: 0.13
-  Net::DAAP::Client::Auth::Protocol:
-    file: lib/Net/DAAP/Client/Auth/Protocol.pm
-  Net::DAAP::Client::Auth::Protocol::v2:
-    file: lib/Net/DAAP/Client/Auth/Protocol/v2.pm
-  Net::DAAP::Client::Auth::Protocol::v3:
-    file: lib/Net/DAAP/Client/Auth/Protocol/v3.pm
-  Net::DAAP::Client::Auth::Protocol::vAny:
-    file: lib/Net/DAAP/Client/Auth/Protocol/vAny.pm
-generated_by: Module::Build version 0.24
+    version: 1.21
+generated_by: Module::Build version 0.25

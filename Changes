@@ -1,3 +1,6 @@
+1.21	Monday 26th July, 2004
+	Gut it - no longer needed so point users at Net::DAAP::Client 0.4
+
 0.13	Wednesday 16th June, 2004
 	Fix the regex to speak daap v3 to iTunes 4.6 too.
 

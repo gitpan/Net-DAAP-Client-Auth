@@ -5,10 +5,8 @@ WriteMakefile
           'NAME' => 'Net::DAAP::Client::Auth',
           'VERSION_FROM' => 'lib/Net/DAAP/Client/Auth.pm',
           'PREREQ_PM' => {
-                           'Test::More' => 0,
-                           'Net::DAAP::Client' => 0,
-                           'Digest::MD5::M4p' => 0,
-                           'Digest::MD5' => 0
+                           'Net::DAAP::Client' => '0.4',
+                           'Test::More' => '0'
                          },
           'INSTALLDIRS' => 'site',
           'PL_FILES' => {}
