@@ -1,2 +1,6 @@
+0.10	Thursay 6th May, 2004
+	Refactoring.
+	Added protocol version 3.0 (iTunes 4.5) support
+
 0.01	Friday 30th April, 2004
 	Initial CPAN release

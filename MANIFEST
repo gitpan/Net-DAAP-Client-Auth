@@ -6,3 +6,7 @@ META.yml
 Makefile.PL
 Build.PL
 lib/Net/DAAP/Client/Auth.pm
+lib/Net/DAAP/Client/Auth/Protocol.pm
+lib/Net/DAAP/Client/Auth/Protocol/v2.pm
+lib/Net/DAAP/Client/Auth/Protocol/v3.pm
+lib/Net/DAAP/Client/Auth/Protocol/vAny.pm

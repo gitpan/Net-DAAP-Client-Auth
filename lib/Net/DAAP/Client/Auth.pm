@@ -1,11 +1,11 @@
 package Net::DAAP::Client::Auth;
 use strict;
 use warnings;
-our $VERSION = 0.01;
-use Carp;
-use Digest::MD5 qw( md5_hex );
-use HTTP::Request::Common;
+use Net::DAAP::Client::Auth::Protocol::vAny;
+use Net::DAAP::Client::Auth::Protocol::v2;
+use Net::DAAP::Client::Auth::Protocol::v3;
 use base qw( Net::DAAP::Client );
+our $VERSION = '0.10';
 
 =head1 NAME
 
@@ -20,111 +20,36 @@ Net::DAAP::Client::Auth - Extend Net::DAAP::Client to do iTunes authorisation
 =head1 DESCRIPTION
 
 Subclasses Net::DAAP::Client and overrides methods to allow the module
-to provide suitable authentication tokens for iTunes 4.2.
+to provide suitable authentication tokens for iTunes 4.2 and 4.5.
 
 =cut
 
 
-
-# XXX - this is less subclassing as a huge copy-and-paste job, taking
-# the original ~50 line long _do_get from Net::DAAP::Client and adding
-# about 20 more lines since the original _do_get could do with a chunk
-# of refactoring
-
-
-# for the v2.0 auth
-my $validation_salt;
+# cheesy - rebless based on the iTunes reported version
 sub _do_get {
-    my ($self, $req, $file) = @_;
-    my $server_url = sprintf("http://%s:%d",
-                             $self->{SERVER_HOST},
-                             $self->{SERVER_PORT});
+    my $self = shift;
 
-    if (!defined wantarray) { carp "_do_get's result is being ignored" }
+    my $response = LWP::UserAgent->new->get(
+        "http://" . $self->{SERVER_HOST} . ":" . $self->{SERVER_PORT} .
+          "/server-info");
 
-    my $id = $self->{ID};
-    my $revision = $self->{REVISION};
-    my $ua = $self->{UA};
-
-    my $url = "$server_url/$req";
-    my $res;
-
-    # append session-id and revision-number query args automatically
-    if ($self->{ID}) {
-        if ($req =~ m{ \? }x) {
-            $url .= "&";
-        } else {
-            $url .= "?";
-        }
-        $url .= "session-id=$id";
+    my $server = $response->headers->header('DAAP-Server') || '';
+    if ( $server =~ m{iTunes/4\.5} ) {
+        bless $self, __PACKAGE__."::Protocol::v3";
     }
-
-    if ($revision && $req ne 'logout') {
-        $url .= "&revision-number=$revision";
+    elsif ( $server =~ m{iTunes} ) {
+        bless $self, __PACKAGE__."::Protocol::v2";
     }
-
-    # fetch into memory or save to disk as needed
-
-    $self->_debug($url);
-
-    my $path = $url;
-    $path =~ s{http://.*?/}{/};
-
-    # since we only ever Client-DAAP-Access-Index 1 we don't need the
-    # full weight of the original libopendaap routine as translated at
-    # http://unixbeard.net/svn/richardc/misc/iTunes_hasher
-    $validation_salt ||= uc md5_hex( join(
-        '',
-        "user-agent", "Authorization", "Accept-Encoding", "daap.songartist",
-        "daap.songdatemodified", "daap.songdisabled", "revision-number",
-        "session-id" ));
-
-    my $request = HTTP::Request::Common::GET(
-        $url,
-        "Client-DAAP-Version" => '2.0',
-        "Client-DAAP-Validation" => uc md5_hex(
-            $path. "Copyright 2003 Apple Computer, Inc." . $validation_salt),
-        "Client-DAAP-Access-Index" => 1,
-       );
-
-    if ($file) {
-        $res = $ua->request($request, $file);
-    } else {
-        $res = $ua->request($request);
+    else {
+        bless $self, __PACKAGE__."::Protocol::vAny";
     }
-
-    # complain if the server sent back the wrong response
-    if (! $res->is_success) {
-        $self->error("$url\n".$res->as_string);
-        return;
-    }
-
-    my $content_type = $res->header("Content-Type");
-    if ($req ne 'logout' && $content_type !~ /dmap/) {
-        $self->error("Broken response (content type $content_type) on $url");
-        return;
-    }
-
-    if ($file) {
-        return $res;           # return obj to avoid copying huge string
-    } else {
-        return $res->content;
-    }
+    $self->_do_get( @_ );
 }
 
 
 1;
 
 __END__
-
-=head1 TODO
-
-Incorporate the daap version 3 authentication, as used by iTunes 4.5,
-and switch models appropriately.
-
-I've already figured out the hasher, it's just a SMOP to detect iTunes
-4.5 and act appropriately.
-http://unixbeard.net/svn/richardc/misc/iTunes45_hasher
 
 =head1 AUTHOR
 

@@ -1,4 +1,4 @@
-README for Net::DAAP::Client::Auth 0.01
+README for Net::DAAP::Client::Auth 0.1
 
 =head1 NAME
 
@@ -16,6 +16,7 @@ Net::DAAP::Client::Auth - Extend Net::DAAP::Client to do iTunes authorisation
 This module has external dependencies on the following modules:
 
  Digest::MD5
+ Digest::MD5::M4p
  Net::DAAP::Client
  perl	5.006
 
@@ -33,6 +34,12 @@ and if all goes well
 What changed over the last 3 revisions
 
 =over
+
+=item 0.10	Thursay 6th May, 2004
+
+	Refactoring.
+	Added protocol version 3.0 (iTunes 4.5) support
+
 
 =item 0.01	Friday 30th April, 2004
 
