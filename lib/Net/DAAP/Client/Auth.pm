@@ -5,7 +5,7 @@ use Net::DAAP::Client::Auth::Protocol::vAny;
 use Net::DAAP::Client::Auth::Protocol::v2;
 use Net::DAAP::Client::Auth::Protocol::v3;
 use base qw( Net::DAAP::Client );
-our $VERSION = '0.10';
+our $VERSION = '0.12';
 
 =head1 NAME
 

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Net-DAAP-Client-Auth
-version: 0.10
+version: 0.12
 author:
   - Richard Clamp <richardc@unixbeard.net>
 abstract: |-
@@ -16,7 +16,7 @@ build_requires:
 provides:
   Net::DAAP::Client::Auth:
     file: lib/Net/DAAP/Client/Auth.pm
-    version: 0.10
+    version: 0.12
   Net::DAAP::Client::Auth::Protocol:
     file: lib/Net/DAAP/Client/Auth/Protocol.pm
   Net::DAAP::Client::Auth::Protocol::v2:

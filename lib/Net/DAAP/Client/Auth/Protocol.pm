@@ -24,6 +24,11 @@ sub _do_get {
     my $url = "$server_url/$req";
     my $res;
 
+    # okay, this is quite evil. I want this info for the VFS, and it's
+    # easier than subclassing _get_songs
+    $url .= ",daap.songcompilation,daap.songtracknumber,daap.songtrackcount"
+      if $url =~ m{items\?type=music};
+
     # append session-id and revision-number query args automatically
     if ($self->{ID}) {
         if ($req =~ m{ \? }x) {

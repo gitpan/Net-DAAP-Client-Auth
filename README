@@ -1,4 +1,4 @@
-README for Net::DAAP::Client::Auth 0.1
+README for Net::DAAP::Client::Auth 0.12
 
 =head1 NAME
 
@@ -34,6 +34,12 @@ and if all goes well
 What changed over the last 3 revisions
 
 =over
+
+=item 0.12	Monday 17th May, 2004
+
+	Added in fetching of daap.songcompilation, daap.songtracknumber, and
+	daap.songtrackcount for Filesys::Virtual::DAAP
+
 
 =item 0.10	Thursay 6th May, 2004
 
