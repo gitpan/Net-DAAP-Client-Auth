@@ -5,7 +5,7 @@ use Net::DAAP::Client::Auth::Protocol::vAny;
 use Net::DAAP::Client::Auth::Protocol::v2;
 use Net::DAAP::Client::Auth::Protocol::v3;
 use base qw( Net::DAAP::Client );
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 =head1 NAME
 
@@ -34,7 +34,7 @@ sub _do_get {
           "/server-info");
 
     my $server = $response->headers->header('DAAP-Server') || '';
-    if ( $server =~ m{iTunes/4\.5} ) {
+    if ( $server =~ m{iTunes/4\.[56]} ) {
         bless $self, __PACKAGE__."::Protocol::v3";
     }
     elsif ( $server =~ m{iTunes} ) {
